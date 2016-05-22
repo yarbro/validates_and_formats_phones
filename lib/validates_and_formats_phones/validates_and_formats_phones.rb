@@ -45,7 +45,7 @@ module ValidatesAndFormatsPhones
   module InstanceMethods
 
     def format_phone_field(field_name, formats = [])
-      formats << DEFAULT_FORMAT if formats.empty?
+      formats = DEFAULT_FORMAT
       self.send("#{field_name}=", self.send(field_name).to_s.to_phone(formats)) unless send(field_name).blank?
     end
   end
