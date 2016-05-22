@@ -1,5 +1,5 @@
 module ValidatesAndFormatsPhones
-  DEFAULT_FORMAT = ["###-####", "(###) ###-####"]
+  DEFAULT_FORMAT = ["###-####", "(###) ###-####", "#-###-###-####"]
   def self.included(base)
     base.send :extend, ClassMethods
     base.send :include, InstanceMethods
@@ -8,14 +8,11 @@ module ValidatesAndFormatsPhones
   def self.extract_formats_and_fields(formats_and_fields)
     options = {:on => :save, :allow_nil => false}
     options.merge!(formats_and_fields.extract_options!)
-    formats = []
+    formats = DEFAULT_FORMAT
     fields = []
     formats_and_fields.each do |option|
-      option.to_s =~ /#/ ?
-        formats << option :
-        fields << option.to_sym
+      fields << option.to_sym
     end
-    formats << DEFAULT_FORMAT if formats.empty?
     fields  << :phone if fields.empty?
     [formats, fields, options]
   end
