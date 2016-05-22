@@ -27,8 +27,9 @@ module ValidatesAndFormatsPhones
       validates_each(*fields) do |record, attr, value|
         unless value.blank? || size_options.include?(value.scan(/\d/).size)
           if size_options.size > 1
-            last = size_options.pop
-            message = "must have #{size_options.join(', ')} or #{last} digits."
+            message = size_options
+            last = message.pop
+            message = "must have #{message.join(', ')} or #{last} digits."
           else
             message = "must have #{size_options[0]} digits."
           end
