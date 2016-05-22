@@ -1,5 +1,6 @@
 module ValidatesAndFormatsPhones
   DEFAULT_FORMAT = ["###-####", "(###) ###-####", "#-###-###-####"].freeze
+  
   def self.included(base)
     base.send :extend, ClassMethods
     base.send :include, InstanceMethods
@@ -13,7 +14,7 @@ module ValidatesAndFormatsPhones
     formats_and_fields.each do |option|
       fields << option.to_sym
     end
-    fields  << :phone if fields.empty?
+    fields<< :phone if fields.empty?
     [formats, fields, options]
   end
 
@@ -27,9 +28,7 @@ module ValidatesAndFormatsPhones
       validates_each(*fields) do |record, attr, value|
         unless value.blank? || size_options.include?(value.scan(/\d/).size)
           if size_options.size > 1
-            message = size_options
-            last = message.pop
-            message = "must have #{message.join(', ')} or #{last} digits."
+            message = "must have 7, 10 or 11 digits."
           else
             message = "must have #{size_options[0]} digits."
           end
